@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StepStyle - Premium Footwear</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
+    <style>
+        * {   
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1a1a1a;
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0, 38, 255, 0.514), rgb(0, 38, 255,0.514)), url('/api/placeholder/1200/800');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #ffd700;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .featured {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .btn {
+            font-size: 18px;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        .add-to-cart {
+            background-color: #28a745;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .add-to-cart::after {
+            content: '\1F6D2';
+            position: absolute;
+            right: -40px;
+            opacity: 0;
+            transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        
+        .add-to-cart:hover::after {
+            right: 12px;
+            opacity: 1;
+        }
+
+        .buy-now {
+            background-color: #007bff;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+         
+        .buy-now::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: left 0.4s ease-in-out;
+        }
+        
+        .buy-now:hover::before {
+            left: 100%;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+        }
+        .size-options {
+            display: flex;
+            gap: 10px;
+        }
+        .size-button {
+            padding: 10px 15px;
+            border: 2px solid #0800ff;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .size-button.selected {
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">StepStyle</div>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="men.html">Men</a>     
+                <a href="women.html">Women</a>
+                <a href="kids.html">Kids</a>
+               
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Step Into Style</h1>
+            <p>Discover our latest collection of premium footwear</p>
+            <a href="#featured" class="cta-button">Shop Now</a>
+        </div>
+    </section>
+
+    <section class="featured" id="featured">
+        <div class="products">
+            <div class="product-card">
+                <input type="image" src="wo1.jpg" alt="Running Shoes" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">ASIAN Casual Sneaker Shoes for Women</h3>
+                    <p>Soft Cushioned Insole </p>
+                    <p class="product-price">₹700</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                    <button class="btn buy-now">Buy Now</button>
+                    <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹699</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹700</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹700</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="women2(749).jpg" alt="Casual Sneakers" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Campus Cristy Women's shoes</h3>
+                    <p>Lace-Up Running Shoes</p>
+                    <p class="product-price">₹749</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                    <button class="btn buy-now">Buy Now</button>
+                    <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹749</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹749</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹749</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="women3(999).jpg" alt="Sports Shoes" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Campus Women's shoes</h3>
+                    <p>Ciara Running Shoes</p>
+                    <p class="product-price">₹999</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                    <button class="btn buy-now">Buy Now</button>
+                    <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹999</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹999</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹999</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="women4(1499).jpg" alt="Sports Shoes" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">OFF LIMITS Women's Shoes</h3>
+                    <p>STUSSYY W Running Shoes</p>
+                    <p class="product-price">₹1,500</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                    <button class="btn buy-now">Buy Now</button>
+                    <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹1,499</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹1,500</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹1,500</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+                </div>
+        </div>
+        <div class="product-card">
+            <img src="women5(2013).jpg" alt="Casual Sneakers" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Puma Women's Shoes</h3>
+                <p>Supernal v3 Running shoes</p>
+                <p class="product-price">₹2,010</p>
+                <button class="btn add-to-cart">Add to Cart</button>
+                <button class="btn buy-now">Buy Now</button>
+                <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹2,010</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹2,010</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹2,010</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="women6(1199).jpg" alt="Casual Sneakers" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title"> Campus RASSLE Women's Shoes</h3>
+                <p>Lace-Up Running Shoes Shoes</p>
+                <p class="product-price">₹2,000</p>
+                <button class="btn add-to-cart">Add to Cart</button>
+                <button class="btn buy-now">Buy Now</button>
+            </div>
+            <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹2,000</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹2,000</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹2,000</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+        </div>
+        <div class="product-card">
+            <img src="women7(679).jpg" alt="Casual Sneakers" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Campus Zoe Plus Women's shoes</h3>
+                <p>Slip-On Walking Shoes</p>
+                <p class="product-price">₹679</p>
+                <button class="btn add-to-cart">Add to Cart</button>
+                <button class="btn buy-now">Buy Now</button>
+                <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">7UK<p>₹679</p></button>
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹679</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹679</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="women8(1229).jpg" alt="Casual Sneakers" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Campus OGL-13 Women's Lace-Up Sneakers</h3>
+                <p>Factor W Running shoes</p>
+                <p class="product-price">₹1,300</p>
+                <button class="btn add-to-cart">Add to Cart</button>
+                <button class="btn buy-now">Buy Now</button>
+                <h2>Select Your shoes Size</h2>
+    <div class="size-options">
+        <button class="size-button" onclick="selectSize(this)">8UK<p>₹1,300</p></button>
+        <button class="size-button" onclick="selectSize(this)">9UK<p>₹1,300</p></button>
+        <button class="size-button" onclick="selectSize(this)">10UK<p>₹1,300</p></button>
+    </div>
+    <p id="selected-size">Selected Size: None</p>
+    <script>function selectSize(element) {
+        document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-size').innerText = 'Selected Size: ' + element.innerText;
+    }</script>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
